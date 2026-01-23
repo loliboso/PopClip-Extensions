@@ -6,8 +6,10 @@
   "popclipVersion": 4225,
   "language": "javascript",
   "module": "currency-converter.js",
-  "entitlements": ["network"],
-  "regex": "(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND)?[\\s]*[$€£¥₹₽฿₱₩₪₨₦₴₡₵¢]\\s*[\\d,]+(?:\\.\\d{2})?|[\\d,]+(?:[.,]\\d{2})?\\s*(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND)",
+  "entitlements": [
+    "network"
+  ],
+  "regex": "(?:[$€£¥₹₽฿₱₩₪₨₦₴₡₵¢円元]\\s*[\\d,.]+(?:[.,]\\d{2,})?)|(?:\\b(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND|AED|Dh|Dirham|Dhiram)\\b\\s+[\\d,.]+(?:[.,]\\d{2,})?)|(?:[\\d,.]+(?:[.,]\\d{2,})?\\s*(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND|AED|Dh|Dirham|Dhiram|円|元))",
   "options": [
     {
       "identifier": "targetCurrency",
@@ -16,6 +18,7 @@
       "defaultValue": "🇹🇼 TWD",
       "description": "Select your preferred currency",
       "values": [
+        "🇦🇪 AED",
         "🇦🇺 AUD",
         "🇧🇷 BRL",
         "🇨🇦 CAD",

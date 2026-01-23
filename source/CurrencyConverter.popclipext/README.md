@@ -4,11 +4,11 @@ Convert currency amounts with real-time exchange rates directly in PopClip.
 
 ## Features
 
-- 🌍 **Auto-detect currency symbols** - Recognizes $, €, £, ¥, and many more
-- 🔤 **Support for currency codes** - Works with USD, EUR, TWD, JPY, etc.
+- 🌍 **Auto-detect currency symbols** - Recognizes $, €, £, ¥, 円, 元 and many more
+- 🔠 **Support for currency codes** - Works with USD, EUR, TWD, JPY, AED, etc.
 - 💱 **Real-time exchange rates** - Fetches current rates from ExchangeRate API
-- 🎯 **Customizable target currency** - Select from 24+ major currencies with flags
-- 📊 **Smart number parsing** - Handles various formats (1,100 or 1.100 or 79,00)
+- 🎯 **Customizable target currency** - Select from 25+ major currencies (including AED)
+- 📊 **Smart number parsing** - Handles various formats (1,100 or 1.100 or 62,700 円)
 - ⚡ **Instant results** - Shows converted amount directly in PopClip
 
 ## Usage
@@ -19,6 +19,8 @@ Convert currency amounts with real-time exchange rates directly in PopClip.
    - `£50.25`
    - `100 USD`
    - `¥10,000`
+   - `62,700 円`
+   - `AED 50`
 
 2. Click the 💵 **Currency Converter** icon in PopClip
 
@@ -36,8 +38,9 @@ Convert currency amounts with real-time exchange rates directly in PopClip.
 
 ### Supported Currencies
 
-The extension supports 24+ major world currencies:
+The extension supports 25+ major world currencies:
 
+- 🇦🇪 **AED** - UAE Dirham (New!)
 - 🇹🇼 **TWD** - New Taiwan Dollar
 - 🇺🇸 **USD** - US Dollar
 - 🇪🇺 **EUR** - Euro
@@ -132,6 +135,12 @@ Uses the [ExchangeRate API](https://www.exchangerate-api.com) for real-time curr
 MIT License - feel free to modify and distribute
 
 ## Changelog
+
+### Version 1.1.0 (2026-01-23)
+- Added support for "円" (Japanese Yen) and "元" (Chinese Yuan) symbols.
+- Added support for UAE Dirham (AED).
+- Improved number parsing to handle more global formats (e.g., 62,700 円).
+- Enhanced currency detection to prioritize 3-letter ISO codes.
 
 ### Version 1.0.0 (2024-11-12)
 - Initial release
