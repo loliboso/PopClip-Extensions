@@ -84,12 +84,12 @@ function parseCurrency(text) {
   let currency = null;
 
   // 優先尋找 3 位英文字母的 ISO 代碼
-  const isoMatch = cleanText.match(/\b([A-Z]{3})\b/);
-  if (isoMatch && CURRENCY_MAP[isoMatch[1]]) {
-    currency = isoMatch[1];
+  const isoMatch = cleanText.match(/(?:^|[^A-Z])([A-Z]{3})(?=$|[^A-Z])/i);
+  if (isoMatch && CURRENCY_MAP[isoMatch[1].toUpperCase()]) {
+    currency = isoMatch[1].toUpperCase();
   } else if (isoMatch) {
     // 如果是 3 位大寫且不在 map 中，也嘗試使用它 (提高靈活性)
-    currency = isoMatch[1];
+    currency = isoMatch[1].toUpperCase();
   }
 
   // 如果沒找到，檢查地圖中的其他鍵 (符號或中文)
