@@ -5,6 +5,7 @@ const CURRENCY_MAP = {
   '€': 'EUR',
   '£': 'GBP',
   '¥': 'JPY',
+  '￥': 'JPY',
   '円': 'JPY',
   '元': 'CNY',
   '₹': 'INR',

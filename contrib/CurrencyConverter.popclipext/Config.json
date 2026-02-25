@@ -9,7 +9,7 @@
   "entitlements": [
     "network"
   ],
-  "regex": "(?:[$€£¥₹₽฿₱₩₪₨₦₴₡₵¢円元]\\s*[\\d,.]+(?:[.,]\\d{2,})?)|(?:\\b(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND|AED|Dh|Dirham|Dhiram)\\b\\s+[\\d,.]+(?:[.,]\\d{2,})?)|(?:[\\d,.]+(?:[.,]\\d{2,})?\\s*(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND|AED|Dh|Dirham|Dhiram|円|元))",
+  "regex": "(?:[$€£¥￥₹₽฿₱₩₪₨₦₴₡₵¢円元]\\s*[\\d,.]+(?:[.,]\\d{2,})?)|(?:\\b(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND|AED|Dh|Dirham|Dhiram)\\b\\s+[\\d,.]+(?:[.,]\\d{2,})?)|(?:[\\d,.]+(?:[.,]\\d{2,})?\\s*(?:USD?|EUR?|GBP|JPY|CNY|TWD|HKD|SGD|AUD|CAD|CHF|SEK|NZD|KRW|INR|BRL|ZAR|MXN|RUB|THB|MYR|IDR|PHP|VND|AED|Dh|Dirham|Dhiram|円|元))",
   "options": [
     {
       "identifier": "targetCurrency",
