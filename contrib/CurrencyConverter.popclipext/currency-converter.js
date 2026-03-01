@@ -4,8 +4,8 @@ const CURRENCY_MAP = {
   '$': 'USD',
   '€': 'EUR',
   '£': 'GBP',
-  '¥': 'JPY',
-  '￥': 'JPY',
+  '¥': ['JPY', 'CNY'],
+  '￥': ['JPY', 'CNY'],
   '円': 'JPY',
   '元': 'CNY',
   '日圓': 'JPY',
@@ -51,6 +51,14 @@ const CURRENCY_MAP = {
   'AU$': 'AUD'
 };
 
+const CURRENCY_FLAGS = {
+  USD: '🇺🇸', EUR: '🇪🇺', GBP: '🇬🇧', JPY: '🇯🇵', CNY: '🇨🇳',
+  TWD: '🇹🇼', HKD: '🇭🇰', KRW: '🇰🇷', THB: '🇹🇭', INR: '🇮🇳',
+  RUB: '🇷🇺', PHP: '🇵🇭', ILS: '🇮🇱', PKR: '🇵🇰', NGN: '🇳🇬',
+  UAH: '🇺🇦', CRC: '🇨🇷', GHS: '🇬🇭', AED: '🇦🇪', AUD: '🇦🇺',
+  CAD: '🇨🇦', SGD: '🇸🇬'
+};
+
 // 解析文字中的貨幣和金額
 function parseCurrency(text) {
   const cleanText = text.trim().toUpperCase();
@@ -92,35 +100,37 @@ function parseCurrency(text) {
   }
 
   // 2. 尋找幣種
-  let currency = null;
+  let currencies = null;
 
   // 優先尋找 3 位英文字母的 ISO 代碼
   const isoMatch = cleanText.match(/(?:^|[^A-Z])([A-Z]{3})(?=$|[^A-Z])/i);
   if (isoMatch && CURRENCY_MAP[isoMatch[1].toUpperCase()]) {
-    currency = isoMatch[1].toUpperCase();
+    const val = CURRENCY_MAP[isoMatch[1].toUpperCase()];
+    currencies = Array.isArray(val) ? val : [val];
   } else if (isoMatch) {
     // 如果是 3 位大寫且不在 map 中，也嘗試使用它 (提高靈活性)
-    currency = isoMatch[1].toUpperCase();
+    currencies = [isoMatch[1].toUpperCase()];
   }
 
   // 如果沒找到，檢查地圖中的其他鍵 (符號或中文)
-  if (!currency) {
+  if (!currencies) {
     // 遍歷所有可能的標識符，按長度排序以防短標識符誤鎖長標識符 (如 $ 誤鎖 NT$)
     const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length);
     for (const key of sortedKeys) {
       if (cleanText.includes(key)) {
-        currency = CURRENCY_MAP[key];
+        const val = CURRENCY_MAP[key];
+        currencies = Array.isArray(val) ? val : [val];
         break;
       }
     }
   }
 
   // 預設為 USD (如果文字中包含了某些數字但感覺像金額)
-  if (!currency) {
-    currency = 'USD';
+  if (!currencies) {
+    currencies = ['USD'];
   }
 
-  return { currency, amount };
+  return { currencies, amount };
 }
 
 // 格式化貨幣顯示
@@ -163,18 +173,34 @@ exports.actions = [{
       // 從下拉選單的值中提取貨幣代碼（移除國旗emoji）
       const targetCurrency = options.targetCurrency.split(' ').pop().toUpperCase();
 
-      const { currency: fromCurrency, amount } = parseCurrency(text);
+      const { currencies, amount } = parseCurrency(text);
 
-      if (fromCurrency === targetCurrency) {
-        popclip.showText(`Already in ${targetCurrency}: ${formatCurrency(amount, targetCurrency)}`);
-        return;
+      const results = [];
+      const alreadyIn = [];
+
+      for (const fromCurrency of currencies) {
+        if (fromCurrency === targetCurrency) {
+          alreadyIn.push(`Already in ${targetCurrency}: ${formatCurrency(amount, targetCurrency)}`);
+          continue;
+        }
+
+        const rate = await getExchangeRate(fromCurrency, targetCurrency, options.apiKey);
+        const convertedAmount = amount * rate;
+
+        let fromStr = formatCurrency(amount, fromCurrency);
+        if (currencies.length > 1) {
+          const flag = CURRENCY_FLAGS[fromCurrency] || `[${fromCurrency}]`;
+          fromStr = `${flag} ${fromStr}`;
+        }
+
+        results.push(`${fromStr} = ${formatCurrency(convertedAmount, targetCurrency)}`);
       }
 
-      const rate = await getExchangeRate(fromCurrency, targetCurrency, options.apiKey);
-      const convertedAmount = amount * rate;
-
-      const result = `${formatCurrency(amount, fromCurrency)} = ${formatCurrency(convertedAmount, targetCurrency)}`;
-      popclip.showText(result, { preview: true });
+      if (results.length > 0) {
+        popclip.showText(results.join(' | '), { preview: true });
+      } else if (alreadyIn.length > 0) {
+        popclip.showText(alreadyIn[0]);
+      }
 
     } catch (error) {
       popclip.showText(`錯誤: ${error.message}`);
